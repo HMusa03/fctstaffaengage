@@ -13,18 +13,18 @@
   },
   "win": {
     "target": "nsis",
-    "icon": "images/cbt.ico",
+    "icon": "cbt.ico",
     "publish": [
       "github"
     ]
   },
   "mac": {
     "target": "dmg",
-    "icon": "images/cbt.icns"
+    "icon": "cbt.icns"
   },
   "linux": {
     "target": "AppImage",
-    "icon": "images/cbt.png"
+    "icon": "cbt.png"
   },
   "keywords": [],
   "author": "HM Solutions LTD",
