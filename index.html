@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FCT CBT Promotion Exam Training Platform</title>
-    <link rel="icon" type="image/png" href="images/fcta_cbt_icon.png">
+    <link rel="icon" type="image/png" href="fcta_cbt_icon.png">
     <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #005bb5;
             margin: 0;
             padding: 0;
-            background-image: url('images/CBT_003.jpeg'); /* Add a CBT-related background image */
+            background-image: url('CBT_003.jpeg'); /* Add a CBT-related background image */
             background-size: cover;
             background-position: center;
             min-height: 100vh; /* Ensure the body takes at least the full viewport height */
@@ -188,7 +188,7 @@
     <header>
         <div class="menu-icon" onclick="openMenu()">&#9776;</div>
         <div class="header-title">FCT CBT Promotion Exam Training Platform</div>
-        <img src="images/FCTA _LOGO.jpg" alt="Header Icon" style="height: 70px;" onclick="goToHome()">
+        <img src="FCTA _LOGO.jpg" alt="Header Icon" style="height: 70px;" onclick="goToHome()">
     </header>
 
     <!-- Slide-out menu -->
