@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CBT Promotion Exam</title>
+    <link rel="icon" type="image/png" href="images/fcta_cbt_icon.png">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #b3c7fc;
+        }
+
+        header {
+            background-color: #004080;
+            color: #ffffff;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            
+        }
+
+        header img {
+            height: 100px;            
+        }
+
+        nav h2 {
+            color: #ffffff;
+            margin: 0;
+            font-size: 30px;
+            flex-grow: 1;
+            text-align: left;
+        }
+
+        nav {
+            display: flex;
+            justify-content: left;
+            background-color: #003366;
+            padding: 10px;
+        }
+
+        nav a {
+            color: #ffffff;
+            text-decoration: none;
+            padding: 10px 20px;
+            margin: 0 10px;
+            font-size: 18px;
+            border-radius: 5px;
+        }
+
+        nav a:hover {
+            background-color: #005bb5;
+        }
+
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .question {
+            margin-bottom: 20px;
+        }
+
+        .navigation-buttons button {
+            padding: 10px 15px;
+            margin: 5px;
+            background-color: #004080;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .navigation-buttons button:hover {
+            background-color: #003366;
+        }
+
+        footer {
+            background-color: #003366;
+            color: #ffffff;
+            text-align: center;
+            padding: 15px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+
+        #timer {
+            font-size: 14px;
+            color: white;
+        }
+
+/* Score Pop-up Styles */
+.score-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    max-width: 500px;
+    padding: 30px;
+    background: #f0faff;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.2);
+    z-index: 1000;
+    text-align: center;
+    border: 3px solid #004080;
+    animation: popIn 0.3s ease-out;
+}
+
+.score-popup h2 {
+    color: #004080;
+    font-size: 28px;
+    margin-bottom: 15px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.score-popup p {
+    font-size: 20px;
+    margin: 15px 0;
+    color: #333;
+    font-weight: 600;
+}
+
+.score-popup .percentage {
+    font-size: 42px;
+    font-weight: 800;
+    color: #004080;
+    margin: 20px 0;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+.score-popup .result-message {
+    font-size: 22px;
+    font-weight: 700;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+.pass {
+    background: #e8f5e9;
+    color: #2e7d32;
+    border: 2px solid #2e7d32;
+}
+
+.fail {
+    background: #ffebee;
+    color: #c62828;
+    border: 2px solid #c62828;
+}
+
+#close-popup {
+    background: #004080;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 20px;
+}
+
+#close-popup:hover {
+    background: #003366;
+    transform: scale(1.05);
+}
+
+/* Animation */
+@keyframes popIn {
+    from {
+        transform: translate(-50%, -50%) scale(0.8);
+        opacity: 0;
+    }
+    to {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+}
+
+/* Overlay */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 999;
+}
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <img src="images/FCTA _LOGO.jpg" alt="Logo" id="logo">
+        <nav><a href="home.html">Home</a> </nav> 
+    </header>
+    
+    <nav>
+        <h2>Promotion Exam on General Paper</h2>
+        <p id="timer">Time Remaining: 17:30</p>
+        <a href=""></a>
+        <a href=""></a>
+        <a href=""></a>
+        <a href=""></a>
+        <a href=""></a>
+    </nav>
+
+<div class="container">
+    <div id="question-container" class="question">
+        <p id="question-text"></p>
+        <div id="options-container"></div>
+    </div>
+
+    <div class="navigation-buttons">
+        <button id="previous-button" onclick="previousQuestion()">Previous</button>
+        <button id="next-button" onclick="nextQuestion()">Next</button>
+        <button id="submit-button" onclick="submitExam()">Finish/Submit</button>
+    </div>
+
+    <div id="result" style="display: none; margin-top: 20px; font-size: 20px; color: green;"></div>
+</div>
+
+<div class="overlay" id="overlay" style="display: none;"></div>
+<div class="score-popup" id="score-popup" style="display: none;">
+    <h2>Exam Results</h2>
+    <p>Total Questions: <span id="total-questions"></span></p>
+    <p>Correct Answers: <span id="correct-answers"></span></p>
+    <div class="percentage" id="percentage"></div>
+    <div class="result-message" id="result-message"></div>
+    <button id="close-popup">Close</button>
+</div>
+
+<footer>
+    <p>&copy; 2025 HM Solutions LTD | All Rights Reserved</p>
+</footer>
+
+<script>
+    const questions = [
+        { question: "The three tiers of government in Nigeria are ...?", options: ["National, Federal, and State; headed by the President, Speaker, and Councilor", "National, Regional, and Provincial; headed by the President, Governor, and Local Chairman", "Federal, State, and Local Government; headed by the President, Governor, and Local Government Chairman, respectively", "Federal, Local, and Regional; headed by the President, Governor, and Speaker"], answer: "c"},
+        { question: "The arms of government and their heads are .....?", options: ["Executive: President; Legislative: National Assembly; Judiciary: Chief Justice of Nigeria", "Executive: Speaker; Legislative: Senate President; Judiciary: Federal High Court Judge", "Executive: Senate President; Legislative: National Assembly; Judiciary: Supreme Court Justice", "Executive: Governor; Legislative: Councilor; Judiciary: Local Court Judge"], answer: "a" },
+        { question: "Five political parties in the National Assembly are .....?", options: ["APC, PDP, APGA, SDP, and PRP", "APC, PDP, NPP, NNPP, and ACD", "APC, DPP, UPN, SDP, and AD", "APC, PDP, PDC, PRP, and APGA"], answer: "a"},
+        { question: "The full name and title of the President of Nigeria is .....?", options: ["Bola Ahmed Tinubu, President of the Federal Republic of Nigeria", "Goodluck Jonathan, President of the Federal Republic of Nigeria", "Olusegun Obasanjo, President of Nigeria", "Muhammadu Buhari, Head of State"], answer: "c" },
+        { question: "The full name and title of the FCT Minister is .....?", options: ["Muhammad Musa Bello, Minister of the Federal Capital Territory", "Ahmed Usman, Minister of Abuja", "Babajide Sanwo-Olu, Minister of FCT", "Bar, Ezenwe Nyesom Wike, Minister of the Federal Capital Territory"], answer: "d" },
+        { question: "The geopolitical zones in Nigeria and the states with their capitals are .....?", options: ["North Central: Kogi (Lokoja), Benue (Makurdi), Kwara (Ilorin); North East: Borno (Maiduguri), Adamawa (Yola); etc.", "North West: Lagos (Lagos), Kaduna (Kaduna), Kano (Kano); South East: Imo (Owerri), Anambra (Awka); etc.", "South West: Ogun (Abeokuta), Ondo (Akure), Ekiti (Ado-Ekiti); South South: Delta (Asaba), Rivers (Port Harcourt); etc.", "North East: Gombe (Gombe), Taraba (Jalingo), Borno (Maiduguri); South East: Abia (Umuahia), Enugu (Enugu); etc."], answer: "a" },
+        { question: "The legislature has the following powers .....?", options: ["Only enacting laws and approving budgets", "Enacting laws, approving budgets, ratifying treaties, conducting investigations, and impeaching public officers", "Conducting investigations and selecting cabinet members", "Drafting executive orders and appointing judges"], answer: "b" },
+        { question: "The difference between the Exclusive List and Concurrent List is .....?", options: ["Exclusive List: matters reserved for federal government only; Concurrent List: shared matters between federal and state", "Exclusive List: shared matters; Concurrent List: matters for federal government only", "Exclusive List: matters for the local government; Concurrent List: matters for private citizens", "Both lists are identical in content"], answer: "a" },        
+        { question: "Fundamental human rights of Nigerians include .....?", options: ["Right to education, Right to own property, Right to vote, Right to work, Right to assembly", "Right to life, Right to liberty, Right to freedom of expression, Right to dignity of person, Right to fair hearing", "Right to freedom of movement, Right to worship, Right to own a business, Right to privacy, Right to freedom of assembly", "Right to work, Right to marry, Right to own land, Right to go abroad, Right to health"], answer: "b" },
+        { question: "Five national problems facing Nigeria are .....?", options: ["Corruption, Unemployment, Security challenges, Infrastructural deficit, Poor healthcare system", "Overpopulation, Education inequality, Political instability, Lack of industries, Poor energy supply", "Unemployment, Gender inequality, Poor internet access, Weak judiciary, High inflation", "Over-dependence on oil, Mismanagement of resources, Poor governance, Lack of policy enforcement, Education disparity"], answer: "a" },
+        { question: "Solutions to national problems include .....?", options: ["Increased taxation, strict border controls, state-sanctioned education programs", "Reducing government expenditure, focusing on natural resources", "Effective anti-corruption policies, job creation programs, improved security, infrastructure development, and healthcare reforms", "Abandoning industrialization and focusing on agriculture"], answer: "c"},        
+        { question: "The vision and mission of the FCTA include .....?", options: [" Vision: To foster collaboration with local governments. Mission: To enforce national policies in Abuja.", "Vision: To ensure the development of the Federal Capital Territory as a model city. Mission: To provide infrastructure, education, and services for the residents of the FCT.", "Vision: To ensure the proper implementation of national educational policies. Mission: To manage Abuja efficiently.", "Vision: To build a self-sufficient FCT. Mission: To reduce dependence on federal resources."], answer: "b"},
+        { question: "The vision and mission of the SEB (State Education Board) is .....?", options: ["Vision: To foster self-sufficiency in education. Mission: To improve funding for schools.", "Vision: To offer affordable education. Mission: To ensure equity in educational standards.", "Vision: To promote education standards in the state. Mission: To coordinate educational policies and programs.", "Vision: To focus on education technology. Mission: To ensure quality teachers in all public schools."], answer: "c"},  
+        { question: "The vision and mission of UBEB (Universal Basic Education Board) is .....?", options: ["Vision: To ensure private education thrives. Mission: To regulate basic education fees.", "Vision: To provide free and quality education to every Nigerian child. Mission: To promote basic education at all levels.", "Vision: To increase enrollment in secondary schools. Mission: To integrate ICT in learning.", "Vision: To introduce financial education to schools. Mission: To ensure quality education."], answer: "b"}, 
+        { question: "The features of the National Coat of Arms and what each stands for are .....?", options: ["White Eagle (freedom), Red Horses (loyalty), Black leaves (strength), and a White shield (peace)", "Green Eagle (peace), Blue band (harmony), and Red horses (vigilance)", "Black Eagle (strength), Green and White wavy band (fertility of the nation), Two horses (dignity), and the Green leaves (abundance)", "Black Shield (security), White band (justice), Green horses (growth), and White leaves (prosperity)"], answer: "c"},
+        { question: "The national flag of Nigeria means .....?", options: ["The green symbolizes the fertile land and wealth of the nation, while white represents peace and unity.", "The green stands for agriculture, while the white represents the judiciary system.", "The flag is only for decoration and has no official meaning.", "The green stands for the rivers, and the white represents the ocean."], answer: "a"},
+        { question: "The significance of the mace in the National Assembly is .....?", options: ["It symbolizes the authority and legitimacy of the legislative process and marks the commencement of legislative sessions.", "It is used to discipline unruly members.", "It is a ceremonial item with no real significance.", "It represents the judiciary’s involvement in lawmaking."], answer: "a"}, 
+        { question: "The first political party in Nigeria was .....?", options: ["The National Party of Nigeria (NPN), formed in 1950.", "The United Progressive Party (UPP), formed in 1951.", "The Peoples Democratic Party (PDP), formed in 1998.", "The Nigerian National Democratic Party (NNDP), formed in 1923."], answer: "d"}, 
+        { question: "Commonwealth is an intergovernmental organization of countries, most of which were former territories of the British Empire.  The members includes .....?", options: ["China, India, Japan, Nigeria, and Egypt.", "United States, Canada, United Kingdom, Nigeria, and Kenya.", "India, Canada, Australia, Nigeria, and South Africa.", "Egypt, Sudan, Nigeria, South Africa, and Ghana."], answer: "c"},
+        { question: "The current Chairman of ECOWAS is .....?", options: ["President Bola Ahmed Tinubu of Nigeria; ECOWAS members include: Ghana, Niger, Burkina Faso, Sierra Leone, and Guinea.", "President Muhammadu Buhari; ECOWAS members include: Senegal, Ivory Coast, Mali, Niger, and Togo.", "President Alassane Ouattara; ECOWAS members include: Nigeria, Liberia, Ghana, Guinea, and Togo.", "President Nana Akufo-Addo; ECOWAS members include: Liberia, Sierra Leone, Ghana, Niger, and Mali."], answer: "a"},
+        { question: "Countries that recently left ECOWAS include .....?", options: ["South Africa, Zimbabwe, and Angola.", "Mali, Guinea, and Burkina Faso.", "Sudan, Ethiopia, and Kenya.", "Senegal, Ghana, and Liberia."], answer: "b"},
+        { question: "OPEC stands for the Organization of the Petroleum Exporting Countries. Five members include .....?", options: ["Nigeria, Saudi Arabia, Iraq, Venezuela, and Angola.", "United States, Saudi Arabia, Russia, Iran, and Iraq.", "Venezuela, Nigeria, South Africa, Angola, and Qatar.", "Saudi Arabia, Iran, Egypt, Malaysia, and Indonesia."], answer: "a"},
+        { question: "What does ECOWAS stand for?", options: ["Economic Community of West African States", "Eastern Community of Western African States", "Economic Coalition of West African States", "Economic Council of West Africa States"], answer: "d"},
+        { question: "Ten members of the African Union include", options: ["Nigeria, Ghana, Zimbabwe, Namibia, Botswana, South Africa, Kenya, Tunisia, Libya, Egypt.", "Nigeria, South Africa, Egypt, Kenya, Algeria, Morocco, Ghana, Rwanda, Uganda, Tanzania.", "Nigeria, Ethiopia, Tanzania, Ghana, Mali, South Africa, Angola, Senegal, Egypt, Liberia.", "Nigeria, Zambia, Sudan, Chad, Sierra Leone, Gabon, Kenya, Malawi, Uganda, Mauritania."], answer: "b"}, 
+        { question: "The current Minister of State for the Federal Capital Territory (FCT) is .....?", options: ["Dr. Mahmud Mariya", "Muhammad Musa Bello", "Aliyu Sulaiman", "Amina Mohammed"], answer: "a"},
+        { question: "What phrase in the anthem emphasizes unity among Nigerians despite their differences?", options: ["Truth and justice reign", "In brotherhood we stand", "Our sovereign Motherland", "O God of all creation"], answer: "b"},
+        { question: "Which of the following is a request made to God in the anthem?", options: ["To help us conquer our enemies", "To grant us wealth and power", "To help us build a nation where no man is oppressed", "To make Nigeria a world superpower"], answer: "c"},
+        { question: "According to the anthem, what is the Nigerian flag a symbol of?", options: ["Wealth and power", "Peace and unity", "Truth and justice", "Prosperity and growth"], answer: "c"},
+        { question: "Which of the following is not a virtue mentioned in the Nigerian national pledge?", options: ["Faithfulness", "Loyalty", "Honesty", "Courage"], answer: "d"},
+        { question: "What does the pledge commit Nigerians to defend?", options: ["The country’s resources", "The unity of Nigeria", "The country’s political parties", "The wealth of the nation"], answer: "b"},
+        { question: "What phrase concludes the Nigerian national pledge?", options: ["May Nigeria prosper", "Long live Nigeria", "So help me God","In unity we stand"], answer: "c"},
+        { question: "What is the main focus of President Tinubu's Renewed Hope Agenda regarding the economy?", options: ["Reducing taxes for the wealthy", "Promoting foreign culture", "Increasing the national debt", "Economic growth and job creation"], answer: "d"},
+        { question: "Which of the following is part of Tinubu's plan for national development?", options: ["Investing in educational reforms and youth empowerment", "Restricting access to education", "Reducing healthcare services", "Limiting technological advancements"], answer: "a"},
+        { question: "What sector does Tinubu’s agenda target for improving citizens' access to medical care?", options: ["Tourism development", "Healthcare reform", "Military expansion", "Agriculture"], answer: "b"},
+        { question: "Who is the current Governor of the Central Bank of Nigeria (CBN)?", options: ["Godwin Emefiele", "Olayemi Cardoso", "Sanusi Lamido Sanusi",  "Kingsley Moghalu"], answer: "b"}
+
+    ]; 
+
+let currentQuestion = 0;
+let score = 0;
+let timer;
+let timeRemaining = 1050;
+let answers = new Array(questions.length).fill(null);
+
+function displayQuestion(index) {
+    const questionText = document.getElementById("question-text");
+    const optionsContainer = document.getElementById("options-container");
+    
+    questionText.textContent = `Question ${index + 1}: ${questions[index].question}`;
+    optionsContainer.innerHTML = "";
+    
+    questions[index].options.forEach((option, i) => {
+        const value = String.fromCharCode(97 + i);
+        const input = document.createElement("input");
+        input.type = "radio";
+        input.name = "answer";
+        input.value = value;
+        input.id = `option${i + 1}`;
+        
+        // Check if this answer was previously selected
+        if (answers[index] === value) {
+            input.checked = true;
+        }
+        
+        const label = document.createElement("label");
+        label.htmlFor = `option${i + 1}`;
+        label.textContent = `${String.fromCharCode(65 + i)}. ${option}`;
+        
+        optionsContainer.appendChild(input);
+        optionsContainer.appendChild(label);
+        optionsContainer.appendChild(document.createElement("br"));
+    });
+}
+
+    function startTimer() {
+        timer = setInterval(() => {
+            if (timeRemaining > 0) {
+                timeRemaining--;
+                const minutes = Math.floor(timeRemaining / 60).toString().padStart(2, '0');
+                const seconds = (timeRemaining % 60).toString().padStart(2, '0');
+                document.getElementById("timer").textContent = `Time Remaining: ${minutes}:${seconds}`;
+            } else {
+                clearInterval(timer);
+                submitExam();
+            }
+        }, 1000);
+    }
+
+    function nextQuestion() {
+        checkAnswer();
+        if (currentQuestion < questions.length - 1) {
+            currentQuestion++;
+            displayQuestion(currentQuestion);
+        } else {
+            alert("You are on the last question.");
+        }
+    }
+
+    function previousQuestion() {
+        if (currentQuestion > 0) {
+            currentQuestion--;
+            displayQuestion(currentQuestion);
+        } else {
+            alert("You are on the first question.");
+        }
+    }
+
+    function checkAnswer() {
+    const selectedOption = document.querySelector("input[name='answer']:checked");
+    if (selectedOption) {
+        answers[currentQuestion] = selectedOption.value;
+        score = answers.reduce((total, answer, idx) => {
+            return answer === questions[idx].answer ? total + 1 : total;
+        }, 0);
+    }
+}
+
+function submitExam() {
+    clearInterval(timer);
+    checkAnswer();
+    
+    const percentage = ((score / questions.length) * 100).toFixed(1);
+    const popup = document.getElementById("score-popup");
+    const overlay = document.getElementById("overlay");
+    
+    document.getElementById("total-questions").textContent = questions.length;
+    document.getElementById("correct-answers").textContent = score;
+    document.getElementById("percentage").textContent = `${percentage}%`;
+    
+    const resultMessage = document.getElementById("result-message");
+    resultMessage.className = percentage >= 70 ? "result-message pass" : "result-message fail";
+    resultMessage.textContent = percentage >= 70 ? 
+        "🎉 Congratulations! You passed!" : 
+        "❌ You need more practice. Try again!";
+    
+    popup.style.display = "block";
+    overlay.style.display = "block";
+    
+    // Close pop-up handler
+    document.getElementById("close-popup").onclick = function() {
+        popup.style.display = "none";
+        overlay.style.display = "none";
+    };
+};
+
+    window.onload = function() {
+        displayQuestion(currentQuestion);
+        startTimer();
+    };
+</script>
+
+</body>
+</html>

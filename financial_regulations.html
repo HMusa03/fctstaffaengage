@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CBT Promotion Exam</title>
+    <link rel="icon" type="image/png" href="images/fcta_cbt_icon.png">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #b3c7fc;
+        }
+
+        header {
+            background-color: #004080;
+            color: #ffffff;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            
+        }
+
+        header img {
+            height: 100px;            
+        }
+
+        nav h2 {
+            color: #ffffff;
+            margin: 0;
+            font-size: 30px;
+            flex-grow: 1;
+            text-align: left;
+        }
+
+        nav {
+            display: flex;
+            justify-content: left;
+            background-color: #003366;
+            padding: 10px;
+        }
+
+        nav a {
+            color: #ffffff;
+            text-decoration: none;
+            padding: 10px 20px;
+            margin: 0 10px;
+            font-size: 18px;
+            border-radius: 5px;
+        }
+
+        nav a:hover {
+            background-color: #005bb5;
+        }
+
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .question {
+            margin-bottom: 20px;
+        }
+
+        .navigation-buttons button {
+            padding: 10px 15px;
+            margin: 5px;
+            background-color: #004080;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .navigation-buttons button:hover {
+            background-color: #003366;
+        }
+
+        footer {
+            background-color: #003366;
+            color: #ffffff;
+            text-align: center;
+            padding: 15px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+
+        #timer {
+            font-size: 14px;
+            color: white;
+        }
+
+/* Score Pop-up Styles */
+.score-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    max-width: 500px;
+    padding: 30px;
+    background: #f0faff;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.2);
+    z-index: 1000;
+    text-align: center;
+    border: 3px solid #004080;
+    animation: popIn 0.3s ease-out;
+}
+
+.score-popup h2 {
+    color: #004080;
+    font-size: 28px;
+    margin-bottom: 15px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.score-popup p {
+    font-size: 20px;
+    margin: 15px 0;
+    color: #333;
+    font-weight: 600;
+}
+
+.score-popup .percentage {
+    font-size: 42px;
+    font-weight: 800;
+    color: #004080;
+    margin: 20px 0;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+.score-popup .result-message {
+    font-size: 22px;
+    font-weight: 700;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+.pass {
+    background: #e8f5e9;
+    color: #2e7d32;
+    border: 2px solid #2e7d32;
+}
+
+.fail {
+    background: #ffebee;
+    color: #c62828;
+    border: 2px solid #c62828;
+}
+
+#close-popup {
+    background: #004080;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 20px;
+}
+
+#close-popup:hover {
+    background: #003366;
+    transform: scale(1.05);
+}
+
+/* Animation */
+@keyframes popIn {
+    from {
+        transform: translate(-50%, -50%) scale(0.8);
+        opacity: 0;
+    }
+    to {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+}
+
+/* Overlay */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 999;
+}
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <img src="images/FCTA _LOGO.jpg" alt="Logo" id="logo">
+        <nav><a href="home.html">Home</a> </nav> 
+    </header>
+    
+    <nav>
+        <h2>Promotion Exam on Financial Regulations</h2>
+        <p id="timer">Time Remaining: 12.5:00</p>
+        <a href=""></a>
+        <a href=""></a>
+        <a href=""></a>
+        <a href=""></a>
+        <a href=""></a>
+    </nav>
+
+<div class="container">
+    <div id="question-container" class="question">
+        <p id="question-text"></p>
+        <div id="options-container"></div>
+    </div>
+
+    <div class="navigation-buttons">
+        <button id="previous-button" onclick="previousQuestion()">Previous</button>
+        <button id="next-button" onclick="nextQuestion()">Next</button>
+        <button id="submit-button" onclick="submitExam()">Finish/Submit</button>
+    </div>
+
+    <div id="result" style="display: none; margin-top: 20px; font-size: 20px; color: green;"></div>
+</div>
+
+<div class="overlay" id="overlay" style="display: none;"></div>
+<div class="score-popup" id="score-popup" style="display: none;">
+    <h2>Exam Results</h2>
+    <p>Total Questions: <span id="total-questions"></span></p>
+    <p>Correct Answers: <span id="correct-answers"></span></p>
+    <div class="percentage" id="percentage"></div>
+    <div class="result-message" id="result-message"></div>
+    <button id="close-popup">Close</button>
+</div>
+
+<footer>
+    <p>&copy; 2025 HM Solutions LTD | All Rights Reserved</p>
+</footer>
+
+<script>
+    const questions = [
+        { question: "What is the primary purpose of financial regulations in the FCT?", options: ["To increase government revenue", "To ensure transparency, accountability, and efficiency in the management of public funds", "To reduce public spending", "To centralize power in the FCT Administration"], Answer: "b"},
+        { question: "Name the key regulatory body responsible for overseeing financial policies in the FCT.", options: ["FCT Treasury Department", "Economic and Financial Crimes Commission (EFCC)", "Federal Ministry of Finance", "Bureau of Public Procurement (BPP)"], Answer: "c"},
+        { question: "Who manages treasury functions and ensures proper accounting practices in the FCT?", options: ["Auditor-General for the Federation", "Federal Ministry of Finance", "FCT Treasury Department", "Office of the Accountant General of the Federation"], Answer: "c"},
+        { question: "What department is responsible for financial management within the FCT Administration?", options: ["Bureau of Public Procurement (BPP)", "Office of the Accountant General of the Federation", "FCT Treasury Department", "Economic and Financial Crimes Commission (EFCC)"], Answer: "c"},
+        { question: "Which office conducts audits to ensure compliance with financial regulations in the FCT?", options: ["Federal Ministry of Finance", "Auditor-General for the Federation", "Bureau of Public Procurement (BPP)", "FCT Treasury Department"], Answer: "b"},
+        { question: "What agency regulates procurement processes in the FCT?", options: ["Economic and Financial Crimes Commission (EFCC)", "Bureau of Public Procurement (BPP)", "Office of the Accountant General of the Federation", "Federal Ministry of Finance"], Answer: "b"},
+        { question: "Which commission investigates financial crimes within the FCT?", options: ["Bureau of Public Procurement (BPP)", "Federal Ministry of Finance", "Economic and Financial Crimes Commission (EFCC)", "FCT Treasury Department"], Answer: "c"},
+        { question: "Which act governs the management of public funds in the FCT?", options: ["Procurement Act", "Fiscal Responsibility Act", "Public Finance Management Act", "Anti-Money Laundering (AML) Regulations"], Answer: "c"},
+        { question: "What act regulates public procurement processes in the FCT?", options: ["Fiscal Responsibility Act", "Public Procurement Act", "Public Finance Management Act", "Treasury Single Account (TSA) Policy"], Answer: "b"},
+        { question: "Which act ensures prudent management of public resources in the FCT?", options: ["Public Finance Management Act", "Fiscal Responsibility Act", "Public Procurement Act", "Anti-Money Laundering (AML) Regulations"], Answer: "b"},
+        { question: "Which document provides detailed guidelines on financial procedures in the FCT?", options: ["Financial Regulations (FR) 2009", "Public Procurement Act", "Fiscal Responsibility Act", "Public Finance Management Act"], Answer: "a"},
+        { question: "policy centralizes government revenues into a single account in the FCT?", options: ["Anti-Money Laundering (AML) Regulations", "Fiscal Responsibility Act", "Treasury Single Account (TSA) Policy", "Public Finance Management Act"], Answer: "c"},
+        { question: "Which regulations are implemented to prevent and detect financial crimes in the FCT?", options: ["Public Procurement Act", "Financial Regulations (FR) 2009", "Anti-Money Laundering (AML) Regulations", "Fiscal Responsibility Act"], Answer: "c"},
+        { question: "What is required for the annual budget of the FCT to be implemented?", options: ["Approval by the Auditor-General", "Approval by the National Assembly", "Approval by the Federal Ministry of Finance", "Approval by the FCT Treasury Department"], Answer: "b"},
+        { question: "Name two key revenue sources for the FCT.", options: ["Loans and grants", "Property taxes and business permits", "Federal allocations and donations", "Bonds and foreign aid"], Answer: "b"},
+        { question: "What mechanisms are used to control expenditures in the FCT?", options: ["Budget cuts and austerity measures", "Approval processes, compliance checks, and adherence to budgetary allocations", "Increased taxation and fines", "Privatization of public services"], Answer: "b"},
+        { question: "How are funds' appropriate use ensured in the FCT?", options: ["By increasing taxes", "Through regular internal and external audits", "By reducing public spending", "Through foreign aid monitoring"], Answer: "b"},
+        { question: "What is required of officials to promote transparency in the FCT?", options: ["Submission of monthly reports", "Declaration of their assets", "Attendance at financial seminars", "Regular public appearances"], Answer: "b"},
+        { question: "Mention a challenge faced by the FCT in financial management.", options: ["Excessive foreign investment", "Revenue leakages", "Over-regulation of private sector", "High interest rates"], Answer: "b"},
+        { question: "Name a reform aimed at improving financial transparency in the FCT.", options: ["Reducing employee salaries", "Implementation of e-governance tools for financial transactions", "Increasing tax rates", "Privatizing public institutions"], Answer: "b"},
+        { question: "What is the role of the Fiscal Responsibility Act in the FCT?", options: ["To encourage foreign investment", "To ensure prudent management of public funds", "To reduce government employment", "To centralize procurement processes"], Answer: "b"},
+        { question: "Which department ensures compliance with the Treasury Single Account (TSA) Policy in the FCT?", options: ["Office of the Accountant General of the Federation", "Bureau of Public Procurement (BPP)", "Federal Ministry of Finance", "FCT Treasury Department"], Answer: "d"},
+        { question: "How often are internal audits conducted in the FCT Administration?", options: ["Monthly", "Quarterly", "Annually", "Bi-annually"], Answer: "c"},
+        { question: "What is the purpose of the Anti-Money Laundering (AML) Regulations in the FCT?", options: ["To attract foreign investments",  "To prevent and detect financial crimes", "To manage procurement processes", "To regulate property taxes"], Answer: "b"},
+        { question: "Who is responsible for the preparation of the annual budget in the FCT?", options: ["Auditor-General for the Federation", "Federal Ministry of Finance", "FCT Treasury Department", "Office of the Accountant General of the Federation"], Answer: "c"}
+
+    ]; 
+
+let currentQuestion = 0;
+let score = 0;
+let timer;
+let timeRemaining = 750;
+let answers = new Array(questions.length).fill(null);
+
+function displayQuestion(index) {
+    const questionText = document.getElementById("question-text");
+    const optionsContainer = document.getElementById("options-container");
+    
+    questionText.textContent = `Question ${index + 1}: ${questions[index].question}`;
+    optionsContainer.innerHTML = "";
+    
+    questions[index].options.forEach((option, i) => {
+        const value = String.fromCharCode(97 + i);
+        const input = document.createElement("input");
+        input.type = "radio";
+        input.name = "answer";
+        input.value = value;
+        input.id = `option${i + 1}`;
+        
+        // Check if this answer was previously selected
+        if (answers[index] === value) {
+            input.checked = true;
+        }
+        
+        const label = document.createElement("label");
+        label.htmlFor = `option${i + 1}`;
+        label.textContent = `${String.fromCharCode(65 + i)}. ${option}`;
+        
+        optionsContainer.appendChild(input);
+        optionsContainer.appendChild(label);
+        optionsContainer.appendChild(document.createElement("br"));
+    });
+}
+
+    function startTimer() {
+        timer = setInterval(() => {
+            if (timeRemaining > 0) {
+                timeRemaining--;
+                const minutes = Math.floor(timeRemaining / 60).toString().padStart(2, '0');
+                const seconds = (timeRemaining % 60).toString().padStart(2, '0');
+                document.getElementById("timer").textContent = `Time Remaining: ${minutes}:${seconds}`;
+            } else {
+                clearInterval(timer);
+                submitExam();
+            }
+        }, 1000);
+    }
+
+    function nextQuestion() {
+        checkAnswer();
+        if (currentQuestion < questions.length - 1) {
+            currentQuestion++;
+            displayQuestion(currentQuestion);
+        } else {
+            alert("You are on the last question.");
+        }
+    }
+
+    function previousQuestion() {
+        if (currentQuestion > 0) {
+            currentQuestion--;
+            displayQuestion(currentQuestion);
+        } else {
+            alert("You are on the first question.");
+        }
+    }
+
+    function checkAnswer() {
+    const selectedOption = document.querySelector("input[name='answer']:checked");
+    if (selectedOption) {
+        answers[currentQuestion] = selectedOption.value;
+        score = answers.reduce((total, answer, idx) => {
+            return answer === questions[idx].answer ? total + 1 : total;
+        }, 0);
+    }
+}
+
+function submitExam() {
+    clearInterval(timer);
+    checkAnswer();
+    
+    const percentage = ((score / questions.length) * 100).toFixed(1);
+    const popup = document.getElementById("score-popup");
+    const overlay = document.getElementById("overlay");
+    
+    document.getElementById("total-questions").textContent = questions.length;
+    document.getElementById("correct-answers").textContent = score;
+    document.getElementById("percentage").textContent = `${percentage}%`;
+    
+    const resultMessage = document.getElementById("result-message");
+    resultMessage.className = percentage >= 70 ? "result-message pass" : "result-message fail";
+    resultMessage.textContent = percentage >= 70 ? 
+        "🎉 Congratulations! You passed!" : 
+        "❌ You need more practice. Try again!";
+    
+    popup.style.display = "block";
+    overlay.style.display = "block";
+    
+    // Close pop-up handler
+    document.getElementById("close-popup").onclick = function() {
+        popup.style.display = "none";
+        overlay.style.display = "none";
+    };
+};
+
+    window.onload = function() {
+        displayQuestion(currentQuestion);
+        startTimer();
+    };
+</script>
+
+</body>
+</html>

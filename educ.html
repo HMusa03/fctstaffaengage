@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CBT Promotion Exam</title>
+    <link rel="icon" type="image/png" href="images/fcta_cbt_icon.png">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #b3c7fc;
+        }
+
+        header {
+            background-color: #004080;
+            color: #ffffff;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            
+        }
+
+        header img {
+            height: 100px;            
+        }
+
+        nav h2 {
+            color: #ffffff;
+            margin: 0;
+            font-size: 30px;
+            flex-grow: 1;
+            text-align: left;
+        }
+
+        nav {
+            display: flex;
+            justify-content: left;
+            background-color: #003366;
+            padding: 10px;
+        }
+
+        nav a {
+            color: #ffffff;
+            text-decoration: none;
+            padding: 10px 20px;
+            margin: 0 10px;
+            font-size: 18px;
+            border-radius: 5px;
+        }
+
+        nav a:hover {
+            background-color: #005bb5;
+        }
+
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .question {
+            margin-bottom: 20px;
+        }
+
+        .navigation-buttons button {
+            padding: 10px 15px;
+            margin: 5px;
+            background-color: #004080;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .navigation-buttons button:hover {
+            background-color: #003366;
+        }
+
+        footer {
+            background-color: #003366;
+            color: #ffffff;
+            text-align: center;
+            padding: 15px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+
+        #timer {
+            font-size: 14px;
+            color: white;
+        }
+
+/* Score Pop-up Styles */
+.score-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    max-width: 500px;
+    padding: 30px;
+    background: #f0faff;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.2);
+    z-index: 1000;
+    text-align: center;
+    border: 3px solid #004080;
+    animation: popIn 0.3s ease-out;
+}
+
+.score-popup h2 {
+    color: #004080;
+    font-size: 28px;
+    margin-bottom: 15px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.score-popup p {
+    font-size: 20px;
+    margin: 15px 0;
+    color: #333;
+    font-weight: 600;
+}
+
+.score-popup .percentage {
+    font-size: 42px;
+    font-weight: 800;
+    color: #004080;
+    margin: 20px 0;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+.score-popup .result-message {
+    font-size: 22px;
+    font-weight: 700;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+.pass {
+    background: #e8f5e9;
+    color: #2e7d32;
+    border: 2px solid #2e7d32;
+}
+
+.fail {
+    background: #ffebee;
+    color: #c62828;
+    border: 2px solid #c62828;
+}
+
+#close-popup {
+    background: #004080;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 20px;
+}
+
+#close-popup:hover {
+    background: #003366;
+    transform: scale(1.05);
+}
+
+/* Animation */
+@keyframes popIn {
+    from {
+        transform: translate(-50%, -50%) scale(0.8);
+        opacity: 0;
+    }
+    to {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+}
+
+/* Overlay */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 999;
+}
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <img src="images/FCTA _LOGO.jpg" alt="Logo" id="logo">
+        <nav><a href="home.html">Home</a> </nav> 
+    </header>
+    
+    <nav>
+        <h2>Promotion Examon Educational Policies</h2>
+        <p id="timer">Time Remaining: 25:00</p>
+        <a href=""></a>
+        <a href=""></a>
+        <a href=""></a>
+        <a href=""></a>
+        <a href=""></a>
+    </nav>
+
+    <div class="container">
+        <div id="question-container" class="question">
+            <p id="question-text"></p>
+            <div id="options-container"></div>
+        </div>
+    
+        <div class="navigation-buttons">
+            <button id="previous-button" onclick="previousQuestion()">Previous</button>
+            <button id="next-button" onclick="nextQuestion()">Next</button>
+            <button id="submit-button" onclick="submitExam()">Finish/Submit</button>
+        </div>
+    
+        <div id="result" style="display: none; margin-top: 20px; font-size: 20px; color: green;"></div>
+    </div>
+    
+    <div class="overlay" id="overlay" style="display: none;"></div>
+    <div class="score-popup" id="score-popup" style="display: none;">
+        <h2>Exam Results</h2>
+        <p>Total Questions: <span id="total-questions"></span></p>
+        <p>Correct Answers: <span id="correct-answers"></span></p>
+        <div class="percentage" id="percentage"></div>
+        <div class="result-message" id="result-message"></div>
+        <button id="close-popup">Close</button>
+    </div>
+
+<footer>
+    <p>&copy; 2025 HM Solutions LTD | All Rights Reserved</p>
+</footer>
+
+<script>
+    const questions = [
+        { question: "Which of the following is NOT a benefit of professionalism in teaching?", options: ["Improved student learning outcomes", "Increased teacher credibility", "Reduced workload for teachers", "Higher job satisfaction"], answer: "c"},
+        { question: "The TRC is responsible for .....?", options: ["Registering and regulating teachers in Nigeria", "Managing school finances", "Conducting student admissions", "Supervising secondary school sports activities"], answer: "a" },
+        { question: "One of the key functions of the TRC is to .....?", options: ["Set professional teaching standards", "Conduct WAEC and NECO exams", "Determine students' career choices", "Promote school sports activities"], answer: "a"},
+        { question: "A good principal must possess which of the following qualities?", options: ["Favoritism in discipline", "Political alignment", "Leadership skills", "Personal wealth"], answer: "c" },
+        { question: "Which of the following will improve the quality assurance department?", options: ["Reducing teacher evaluations", "Avoiding school inspections", "Ignoring teachers’ feedback", "Regular training of staff"], answer: "d" },
+        { question: "A school inspector must ....?", options: ["Identify areas for improvement in teaching and learning", "Focus only on administrative staff", "Determine students’ academic courses", "Conduct student elections"], answer: "a" },
+        { question: "Which of the following is a major problem affecting education in Nigeria?", options: ["Low student population", "Inadequate funding", "Too many teachers", "Strict discipline policies"], answer: "b" },
+        { question: "The principal plays a leadership role by .....?", options: ["Ensuring discipline and academic excellence", "Delegating all duties to teachers without supervision", "Avoiding school inspections", "Promoting personal interests"], answer: "a" },
+        { question: "A key challenge of secondary education in Nigeria is .....?", options: ["Too many teachers per subject", "Overcrowded classrooms", "Low demand for education", "Strict quality assurance measures"], answer: "b" },
+        { question: "A positive school tone contributes to .....?", options: ["Better student performance and discipline", "Increased absenteeism", "Poor teaching quality", "Low morale among staff"], answer: "a" },
+        { question: "The physical environment of a school can .....?", options: ["Have no impact on student performance", "Be ignored in school management", "Improve or weaken school tone", "Be the sole factor affecting learning"], answer: "c"},
+        { question: "Adult literacy programs can help by .....?", options: ["Preventing children from learning", "Educating those who missed formal schooling", "Reducing government involvement in education", "Promoting illiteracy"], answer: "b"},
+        { question: "In school administration, ICT is useful for .....?", options: ["Reducing access to learning materials", "Increasing paperwork load", "Data management and student records", "Promoting manual processing of results"], answer: "c"},
+        { question: "Poor teaching facilities can lead to .....?", options: ["Increased student participation", "A subject being removed from external examinations", "Automatic approval for WAEC", "Higher government funding"], answer: "b"},
+        { question: "Which of the following is NOT a key criterion for promotion in the civil service?", options: ["Performance and efficiency", "Seniority and experience", "Political affiliation", "Examination or interview performance"], answer: "c"},
+        { question: "Proper documentation during an inspection is important because .....?", options: ["It provides a basis for recommendations", "It delays decision-making", "It ensures that all schools pass inspection", "It reduces accountability"], answer: "a"},
+        { question: "Effective inspectors must possess .....?", options: ["Good communication and analytical skills", "Personal relationships with school heads", "Political affiliations", "Strict favoritism"], answer: "a"},
+        { question: "Poor working conditions can .....?", options: ["Improve teacher productivity", "Have no impact on education quality", "Make teachers more efficient", "Reduce teacher effectiveness"], answer: "d"},
+        { question: "Classroom performance improves when .....?", options: ["Teachers work in isolation", "Schools ignore performance monitoring", "Teachers receive adequate resources and motivation", "There is no supervision"], answer: "c"},
+        { question: "Teachers can enhance learning materials by .....?", options: ["Collaborating with educational organizations", "Reducing student engagement", "Ignoring resource challenges", "Depending only on traditional teaching methods"], answer: "a"},
+        { question: "School inspections are important because they .....?", options: ["Reduce administrative responsibilities", "Ensure compliance with educational policies", "Discourage academic evaluations", "Delay teacher promotions"], answer: "b"},
+        { question: "Effective teacher training programs help in .....?", options: ["Enhancing teaching quality", "Reducing teacher efficiency", "Eliminating school inspections", "Promoting examination malpractice"], answer: "a"},
+        { question: "A key factor in school administration efficiency is .....?", options: ["Number of school buildings alone", "Avoiding staff meetings", "Delaying policy implementation","Record-keeping and documentation"], answer: "d"},
+        { question: "One condition for promotion from Grade Level 7 to 14 is .....?", options: ["Investment in company shares", "Performance evaluation and recommendation", "Appointment by a political leader", "Completing a two-year probation period"], answer: "b"},
+        { question: "Assessment of student learning outcomes should focus on .....?", options: ["Comprehension and application of knowledge", "Social background of students", "Classroom furniture arrangement", "School uniform color"], answer: "a"},
+        { question: "Lack of career guidance can result in ......?", options: ["Increased student discipline", "Higher teacher effectiveness", "Poor subject and career choices", "Reduction in school dropout rates"], answer: "c"},
+        { question: "A major issue in technical education is .....?", options: ["Availability of instructional materials", "Strong government support", "Inadequate practical exposure for students", "Proper maintenance of facilities"], answer: "c"}, 
+        { question: "Which of the following promotes examination malpractice?", options: ["Poor preparation by students", "Strict examination regulations", "Honest invigilation", "Proper guidance and counselling"], answer: "a"},
+        { question: "Which of the following contributes to a good learning environment?", options: ["Lack of discipline in schools", "Shortage of teachers", "Poor funding of schools", "Effective classroom management"], answer: "d"},
+        { question: "Discipline in schools can be improved by .....?", options: ["Encouraging truancy among students", "Effective leadership from school administrators", "Reducing teacher supervision", "Allowing students to set their own rules"], answer: "b"},
+        { question: "In lesson planning, an important step is .....?", options: ["Ignoring student engagement", "Skipping assessment strategies", "Avoiding practical demonstrations", "Selecting appropriate teaching methods"], answer: "d"},
+        { question: "Co-curricular activities are .....?", options: ["Educational activities outside the formal curriculum", "Activities that disrupt academic work", "Limited to sports only", "Irrelevant to students’ development"], answer: "a"},
+        { question: "Co-curricular activities help in .....?", options: ["Limiting student interaction", "Increasing absenteeism", "Discouraging critical thinking", "Building leadership skills"], answer: "d"},
+        { question: "A major tool for maintaining quality education is .....?", options: ["Curriculum evaluation", "Eliminating teacher training", "Reducing assessment strategies", "Avoiding school monitoring"], answer: "a"}, 
+        { question: "Continuous assessment ensures .....?", options: ["Regular tracking of student progress", "Focus on final exams only", "Ignoring students’ learning needs", "Assessing only theoretical knowledge"], answer: "a"},
+        { question: "Continuous assessment helps in .....?", options: ["Promoting last-minute exam cramming", "Reducing students’ engagement in learning", "Identifying students’ learning challenges early", "Avoiding teacher evaluation"], answer: "c"},
+        { question: "One major challenge of continuous assessment is .....?", options: ["Promoting effective learning", "The risk of subjectivity in grading", "Ensuring consistent evaluation", "Encouraging teacher-student interaction"], answer: "b"}, 
+        { question: "The school curriculum is designed to .....?", options: ["Restrict students' learning opportunities", "Limit teaching flexibility", "Provide a structured learning experience", "Reduce the importance of assessments"], answer: "c"},
+        { question: "A curriculum is mainly influenced by .....?", options: ["National education standards", "Individual student choices only", "Teachers’ opinions alone", "Unregulated subject selection"], answer: "a"},
+        { question: "Which of these affects curriculum development?", options: ["Ignoring technological advancements", "Lack of educational research", "Government policies", "Random syllabus creation"], answer: "c"},
+        { question: "A key function of the examination committee is .....?", options: ["Overseeing examination processes", "Organizing social events", "Managing sports activities", "Reducing student evaluations"], answer: "a"}, 
+        { question: "The three sub-sectors of education in Nigeria are .....?", options: ["Primary, Secondary, and Vocational Training", "Basic, Post-Basic, and Tertiary Education", "Private, Public, and Informal Education", "Government, Community, and Religious Education"], answer: "b"}, 
+        { question: "Which of the following is a statutory record kept in a school?", options: ["Teacher's personal notes", "Principal’s diary", "Student attendance register", "Classroom decoration plans"], answer: "c"},
+        { question: "Private lessons are discouraged in schools because .....?", options: ["They can lead to unfair advantage and exploitation", "They improve students’ social skills", "They encourage peer cooperation", "They are legally mandated in some regions"], answer: "a"},
+        { question: "A curriculum refers to .....?", options: ["The outline of a specific subject’s content", "The overall educational framework, including subjects, skills, and learning outcomes", "A daily lesson plan", "A set of guidelines for student behavior"], answer: "b"},
+        { question: "The syllabus refers to .....?", options: ["The specific content and subjects to be covered in a particular course", "The educational philosophy of the school", "A list of students' names", "A set of rules for classroom management"], answer: "a"},
+        { question: "E-learning allows students to .....?", options: ["Limit their engagement with instructors and peers", "Only learn in traditional classrooms with fixed schedules", "Learn at their own pace and revisit lessons as needed", "Avoid using technology altogether"], answer: "c"},
+        { question: "E-learning faces the challenge of .....?", options: ["Over-reliance on in-person learning", "High availability of offline learning tools", "No requirement for access to digital devices", "Insufficient infrastructure and technical support in some regions"], answer: "d"},
+        { question: "E-learning refers to .....?", options: ["Learning without the use of any technology", "The traditional method of learning with paper-based resources", "A classroom-based learning model without internet access", "The use of digital technologies to facilitate learning and education"], answer: "d"},
+        { question: "A school head should supervise teaching and learning because .....?", options: ["To ensure quality education and uphold academic standards", "To punish teachers for mistakes", "To focus only on extracurricular activities", "To prevent students from learning independently"], answer: "a"}
+
+    ]; 
+
+let currentQuestion = 0;
+let score = 0;
+let timer;
+let timeRemaining = 1500;
+let answers = new Array(questions.length).fill(null);
+
+function displayQuestion(index) {
+    const questionText = document.getElementById("question-text");
+    const optionsContainer = document.getElementById("options-container");
+    
+    questionText.textContent = `Question ${index + 1}: ${questions[index].question}`;
+    optionsContainer.innerHTML = "";
+    
+    questions[index].options.forEach((option, i) => {
+        const value = String.fromCharCode(97 + i);
+        const input = document.createElement("input");
+        input.type = "radio";
+        input.name = "answer";
+        input.value = value;
+        input.id = `option${i + 1}`;
+        
+        // Check if this answer was previously selected
+        if (answers[index] === value) {
+            input.checked = true;
+        }
+        
+        const label = document.createElement("label");
+        label.htmlFor = `option${i + 1}`;
+        label.textContent = `${String.fromCharCode(65 + i)}. ${option}`;
+        
+        optionsContainer.appendChild(input);
+        optionsContainer.appendChild(label);
+        optionsContainer.appendChild(document.createElement("br"));
+    });
+}
+
+    function startTimer() {
+        timer = setInterval(() => {
+            if (timeRemaining > 0) {
+                timeRemaining--;
+                const minutes = Math.floor(timeRemaining / 60).toString().padStart(2, '0');
+                const seconds = (timeRemaining % 60).toString().padStart(2, '0');
+                document.getElementById("timer").textContent = `Time Remaining: ${minutes}:${seconds}`;
+            } else {
+                clearInterval(timer);
+                submitExam();
+            }
+        }, 1000);
+    }
+
+    function nextQuestion() {
+        checkAnswer();
+        if (currentQuestion < questions.length - 1) {
+            currentQuestion++;
+            displayQuestion(currentQuestion);
+        } else {
+            alert("You are on the last question.");
+        }
+    }
+
+    function previousQuestion() {
+        if (currentQuestion > 0) {
+            currentQuestion--;
+            displayQuestion(currentQuestion);
+        } else {
+            alert("You are on the first question.");
+        }
+    }
+
+    function checkAnswer() {
+    const selectedOption = document.querySelector("input[name='answer']:checked");
+    if (selectedOption) {
+        answers[currentQuestion] = selectedOption.value;
+        score = answers.reduce((total, answer, idx) => {
+            return answer === questions[idx].answer ? total + 1 : total;
+        }, 0);
+    }
+}
+
+function submitExam() {
+    clearInterval(timer);
+    checkAnswer();
+    
+    const percentage = ((score / questions.length) * 100).toFixed(1);
+    const popup = document.getElementById("score-popup");
+    const overlay = document.getElementById("overlay");
+    
+    document.getElementById("total-questions").textContent = questions.length;
+    document.getElementById("correct-answers").textContent = score;
+    document.getElementById("percentage").textContent = `${percentage}%`;
+    
+    const resultMessage = document.getElementById("result-message");
+    resultMessage.className = percentage >= 70 ? "result-message pass" : "result-message fail";
+    resultMessage.textContent = percentage >= 70 ? 
+        "🎉 Congratulations! You passed!" : 
+        "❌ You need more practice. Try again!";
+    
+    popup.style.display = "block";
+    overlay.style.display = "block";
+    
+    // Close pop-up handler
+    document.getElementById("close-popup").onclick = function() {
+        popup.style.display = "none";
+        overlay.style.display = "none";
+    };
+};
+    window.onload = function() {
+        displayQuestion(currentQuestion);
+        startTimer();
+    };
+</script>
+
+</body>
+</html>

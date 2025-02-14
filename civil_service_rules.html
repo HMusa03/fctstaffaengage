@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CBT Promotion Exam</title>
+    <link rel="icon" type="image/png" href="images/fcta_cbt_icon.png">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #b3c7fc;
+        }
+
+        header {
+            background-color: #004080;
+            color: #ffffff;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            
+        }
+
+        header img {
+            height: 100px;            
+        }
+
+        nav h1 {
+            color: #ffffff;
+            margin: 0;
+            font-size: 30px;
+            flex-grow: 1;
+            text-align: left;
+        }
+
+        nav {
+            display: flex;
+            justify-content: left;
+            background-color: #003366;
+            padding: 10px;
+        }
+
+        nav a {
+            color: #ffffff;
+            text-decoration: none;
+            padding: 10px 20px;
+            margin: 0 10px;
+            font-size: 18px;
+            border-radius: 5px;
+        }
+
+        nav a:hover {
+            background-color: #005bb5;
+        }
+
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .question {
+            margin-bottom: 20px;
+        }
+
+        .navigation-buttons button {
+            padding: 10px 15px;
+            margin: 5px;
+            background-color: #004080;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .navigation-buttons button:hover {
+            background-color: #003366;
+        }
+
+        footer {
+            background-color: #003366;
+            color: #ffffff;
+            text-align: center;
+            padding: 15px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+
+        #timer {
+            font-size: 18px;
+            color: white;
+        }
+
+/* Score Pop-up Styles */
+.score-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    max-width: 500px;
+    padding: 30px;
+    background: #f0faff;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.2);
+    z-index: 1000;
+    text-align: center;
+    border: 3px solid #004080;
+    animation: popIn 0.3s ease-out;
+}
+
+.score-popup h2 {
+    color: #004080;
+    font-size: 28px;
+    margin-bottom: 15px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.score-popup p {
+    font-size: 20px;
+    margin: 15px 0;
+    color: #333;
+    font-weight: 600;
+}
+
+.score-popup .percentage {
+    font-size: 42px;
+    font-weight: 800;
+    color: #004080;
+    margin: 20px 0;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+.score-popup .result-message {
+    font-size: 22px;
+    font-weight: 700;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+.pass {
+    background: #e8f5e9;
+    color: #2e7d32;
+    border: 2px solid #2e7d32;
+}
+
+.fail {
+    background: #ffebee;
+    color: #c62828;
+    border: 2px solid #c62828;
+}
+
+#close-popup {
+    background: #004080;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 20px;
+}
+
+#close-popup:hover {
+    background: #003366;
+    transform: scale(1.05);
+}
+
+/* Animation */
+@keyframes popIn {
+    from {
+        transform: translate(-50%, -50%) scale(0.8);
+        opacity: 0;
+    }
+    to {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+}
+
+/* Overlay */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 999;
+}
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <img src="images/FCTA _LOGO.jpg" alt="Logo" id="logo">
+        <nav><a href="home.html">Home</a> </nav> 
+    </header>
+    
+    <nav>
+        <h1>Promotion Exam on Civil Service Rules</h1>
+        <h3 id="timer">Time Remaining: 50:00</h3>
+        <a href=""></a>
+        <a href=""></a>
+        <a href=""></a>
+        <a href=""></a>
+        <a href=""></a>
+    </nav>
+
+    <div class="container">
+        <div id="question-container" class="question">
+            <p id="question-text"></p>
+            <div id="options-container"></div>
+        </div>
+    
+        <div class="navigation-buttons">
+            <button id="previous-button" onclick="previousQuestion()">Previous</button>
+            <button id="next-button" onclick="nextQuestion()">Next</button>
+            <button id="submit-button" onclick="submitExam()">Finish/Submit</button>
+        </div>
+    
+        <div id="result" style="display: none; margin-top: 20px; font-size: 20px; color: green;"></div>
+    </div>
+    
+    <div class="overlay" id="overlay" style="display: none;"></div>
+    <div class="score-popup" id="score-popup" style="display: none;">
+        <h2>Exam Results</h2>
+        <p>Total Questions: <span id="total-questions"></span></p>
+        <p>Correct Answers: <span id="correct-answers"></span></p>
+        <div class="percentage" id="percentage"></div>
+        <div class="result-message" id="result-message"></div>
+        <button id="close-popup">Close</button>
+    </div>
+
+<footer>
+    <p>&copy; 2025 HM Solutions LTD | All Rights Reserved</p>
+</footer>
+
+<script>
+    const questions = [
+        { question: "Which of the following is NOT typically found in a staff nominal roll?", options: ["Name of the officer", "Date of first appointment", "Officer’s family history", "Grade level and step"], answer: "c" },
+        { question: "A seniority list in the civil service primarily helps in ........?", options: ["Determining salary structures", "Establishing the hierarchy of officers", "Conducting elections", "Assigning personal allowances"], answer: "b" },
+        { question: "Notional promotion refers to .......?", options: ["A promotion with financial benefits", "A promotion without immediate financial benefits but with seniority recognition", "A temporary demotion", "A forced retirement scheme"], answer: "b" },
+        { question: "The primary purpose of notional promotion is to .......?", options: ["Compensate an officer financially", "Ensure smooth administrative progression without financial commitment", "Penalize non-performing staff", "Reduce the workforce"], answer: "b" },
+        { question: "Which of the following is NOT a condition for notional promotion?", options: ["Availability of vacancy", "Officer's retirement date", "Seniority in service", "Officer’s health status"], answer: "d" },
+        { question: "One of the conditions for notional promotion is .......?", options: ["Regular attendance in office parties", "Personal request by the officer", "Meeting promotion eligibility criteria", "Length of time spent in the same office"], answer: "c" },
+        { question: "The Junior Staff Committee is responsible for .......?", options: ["Promotions and discipline of officers on Grade Level 07 and below", "Budgeting for junior staff salaries", "Policy formulation for senior officers", "Recruitment of political appointees"], answer: "b" },
+        { question: "The composition of the Junior Staff Committee includes .......?", options: ["Directors and Permanent Secretaries only", "Representatives of the Ministry and HR Officers", "The President and Governors", "Heads of Local Governments"], answer: "b" },
+        { question: "The Senior Staff Committee is responsible for .......?", options: ["Managing funds for senior officers", "Handling recruitment, promotion, and discipline of officers on Grade Level 08 and above", "Determining pension payments for retirees", "Managing junior staff welfare"], answer: "b" },
+        { question: "The Senior Staff Committee is typically chaired by .......?", options: ["The Minister or Permanent Secretary of the Ministry", "A junior officer", "A political appointee", "A contractor"], answer: "a" },
+        { question: "The role of the Federal Civil Service Commissioner in Senior Staff Committee meetings is to ..........?", options: ["Make binding decisions", "Approve project contracts", "Observe and ensure due process in promotions", "Review state-level recruitment processes"], answer: "c"},
+        { question: "The observer status of the Federal Civil Service Commissioner ensures ........?", options: ["Political influence in promotions", "Fairness, transparency, and adherence to public service rules", "Direct appointment of candidates", "Creation of new civil service positions"], answer: "b"},
+        { question: "Which of the following is NOT a condition for promotion in the civil service?", options: ["Availability of vacancy", "Officer’s performance and efficiency", "Personal relationship with senior officers", "Possession of required qualifications"], answer: "c"},
+        { question: "One of the conditions an officer must meet before promotion is .......?", options: ["Being punctual to work once a week", "Serving for a minimum period in the current grade", "Attending at least two political rallies", "Holding multiple job positions"], answer: "b"},
+        { question: "Which of the following is NOT a key criterion for promotion in the civil service?", options: ["Performance and efficiency", "Seniority and experience", "Political affiliation", "Examination or interview performance"], answer: "c"},
+        { question: "Promotion in the civil service is mainly based on .....?", options: ["Work performance and availability of vacancies", "Number of years spent in a particular city", "Personal favors from superiors", "Social media influence"], answer: "a"},
+        { question: "A major condition governing a promotion interview is .....?", options: ["Candidates must meet the minimum years of service requirement", "Candidates must be above 50 years old", "Candidates must be related to the head of service", "Candidates must provide personal financial records"], answer: "a"},
+        { question: "Before a promotion interview, an officer must .....?", options: ["Declare all assets publicly", "Undergo a six-month political orientation", "Pay an interview fee", "Demonstrate competence in their current role"], answer: "d"},
+        { question: "Conversion in civil service means .....?", options: ["Skipping grades without formal approval", "Gaining promotion through favoritism", "Changing from one cadre to another based on qualifications", "Transferring to another ministry"], answer: "c"},
+        { question: "Advancement in civil service refers to .....?", options: ["Movement within the same cadre after acquiring higher qualifications", "Retirement with benefits", "Taking a leave of absence", "Working overtime without pay"], answer: "a"},
+        { question: "A key condition for conversion and advancement is .....?", options: ["Length of time spent outside the country", "Acquisition of additional relevant qualifications", "Completing a mandatory physical fitness test", "Approval from junior staff members"], answer: "b"},
+        { question: "An officer applying for conversion must .....?", options: ["Obtain approval from the Civil Service Commission", "Spend five years in their current position", "Request a personal recommendation letter from the Governor", "Participate in a state-wide election"], answer: "a"},
+        { question: "Promotion from Grade Level 7 to 14 requires .....?", options: ["Owning a house in the Federal Capital Territory", "Attending political party meetings", "Having a personal business", "Completion of a minimum number of years in the current grade"], answer: "d"},
+        { question: "One condition for promotion from Grade Level 7 to 14 is .....?", options: ["Investment in company shares", "Performance evaluation and recommendation", "Appointment by a political leader", "Completing a two-year probation period"], answer: "b"},
+        { question: "Promotion from Grade Level 15 to 17 is subject to .....?", options: ["Federal Civil Service Commission approval", "Monthly staff contributions", "Political party membership", "Buying an official car"], answer: "a"},
+        { question: "A critical requirement for promotion to Grade Level 17 is .....?", options: ["Serving in multiple ministries at once", "Having at least five personal assistants", "Passing an assessment interview by the Senior Staff Committee", "Declaring personal assets to the media"], answer: "c"},
+        { question: "Which of the following is NOT a requirement for appointment into the Federal Civil Service?", options: ["Nigerian citizenship", "Minimum educational qualification", "Membership in a political party", "Good character and clean record"], answer: "c"},
+        { question: "One of the basic requirements for appointment into the Federal Civil Service is .....?", options: ["Passing a recruitment examination and interview", "Owning a business", "Political sponsorship", "Holding a personal bank account with a minimum deposit"], answer: "a"},
+        { question: "One of the key documents required for transfer into the Federal Civil Service is .....?", options: ["A signed personal loan agreement", "Proof of private business ownership", "A certificate of tax exemption", "A letter of release from the current employer"], answer: "d"},
+        { question: "When applying for a transfer into the Federal Civil Service, an officer must submit .....?", options: ["A letter of commendation from a political party", "A performance evaluation report from the current employer", "A written approval from a traditional ruler", "Proof of international travel experience"], answer: "b"},
+        { question: "Which of the following is NOT a type of appointment into the civil service?", options: ["Permanent appointment", "Acting appointment", "Provisional appointment", "Self-appointment"], answer: "d"},
+        { question: "One of the major types of appointment into the civil service is .....?", options: ["Contract appointment", "Political nomination", "Casual appointment", "Emergency appointment"], answer: "a"},
+        { question: "The probationary period in the civil service is ....?", options: ["A period of indefinite suspension", "A waiting period before receiving salary", "A compulsory leave before starting work", "A trial period before confirmation of appointment"], answer: "d"},
+        { question: "The standard probationary period in the Nigerian Civil Service is typically .....?", options: ["2 years", "1 month", "5 years", "10 years"], answer: "a"},
+        { question: "Which category of officers is typically exempted from the probationary period in the civil service?", options: ["Officers transferred from other government services with confirmed appointments", "Fresh graduates joining the service", "Temporary staff", "Interns"], answer: "a"},
+        { question: "Officers who are exempted from probation must have .....?", options: ["Completed a six-month political orientation program", "Been nominated by a senior officer", "Previously held a confirmed appointment in another government agency", "Worked in the private sector for at least five years"], answer: "c"},
+        { question: "Transfer in the civil service refers to .....?", options: ["Temporary assignment of additional responsibilities", "Movement of an officer from one department or ministry to another", "Promotion to a higher grade", "Termination of employment"], answer: "b"},
+        { question: "A transfer in the civil service is usually approved by .....?", options: ["A personal friend of the officer", "Any staff member in the department", "The Civil Service Commission", "The officer’s immediate subordinate"], answer: "c"},
+        { question: "Secondment in the civil service means .....?", options: ["Temporary release of an officer to another organization for a specified period", "Permanent dismissal from service", "Assignment of new responsibilities without salary increment", "Automatic promotion to the next grade level"], answer: "a"},
+        { question: "A key characteristic of secondment is that .....?", options: ["The officer resigns permanently", "The officer loses all employment benefits", "The officer retains their position in their parent organization", "The officer must reapply for a new position"], answer: "c"},
+        { question: "The main difference between transfer and secondment is that .....?", options: ["Transfer is permanent, while secondment is temporary", "Transfer applies only to junior staff", "Secondment is for international assignments only", "Transfer requires a reduction in salary"], answer: "a"},
+        { question: "In secondment, the officer’s salary is usually paid by .....?", options: ["The officer’s personal account", "The parent organization", "A foreign sponsor", "The host organization only"], answer: "b"},
+        { question: "Which of the following is NOT a type of transfer in the civil service?", options: ["Inter-ministerial transfer", "Voluntary transfer", "Sports transfer", "Inter-governmental transfer"], answer: "c"},
+        { question: "One type of transfer in the civil service is .....?", options: ["Inter-service transfer", "Job-sharing transfer", "Anonymous transfer", "Probationary transfer"], answer: "a"},
+        { question: "Contract appointment in the civil service refers to .....?", options: ["Permanent employment with full pension benefits", "Temporary employment based on a fixed agreement", "Political appointment that lasts for life", "Secret appointment without documentation"], answer: "b"},
+        { question: "One feature of a contract appointment is that .....?", options: ["It has a specified duration and conditions", "It is given automatically to every applicant", "It guarantees lifetime pension", "It requires compulsory military service"], answer: "a"},
+        { question: "Which of the following is NOT typically given a contract appointment?", options: ["Retired officers with valuable experience", "Foreign experts hired for specialized roles", "Newly recruited junior staff", "Professionals with rare skills"], answer: "c"},
+        { question: "A common recipient of a contract appointment is .....?", options: ["A student on internship", "A fresh university graduate with no work experience", "A political campaign manager", "A retired judge invited for advisory duties"], answer: "d"},
+        { question: "The key difference between transfer and posting is that .....?", options: ["Transfer applies only to senior officers", "Posting is done without any formal process", "Transfer is done only within the same department", "Transfer is permanent, while posting is usually temporary"], answer: "d"},
+        { question: "Appointments for Grade Level 01 to 06 in the civil service are handled by .....?", options: ["The Ministry or Department", "The Federal Civil Service Commission", "The President", "The National Assembly"], answer: "a"},
+        { question: " Officers on Grade Level 15 to 17 are appointed by .....?", options: ["The Ministry of Finance", "The Permanent Secretary", "The Federal Civil Service Commission", "The Head of Civil Service of the Federation"], answer: "c"},
+        { question: "One key guideline for the appointment into junior posts is .....?", options: ["Candidates must possess at least a Primary School Leaving Certificate", "Candidates must be at least 50 years old", "Candidates must have prior experience in banking", "Candidates must be from the same state as the appointing officer"], answer: "a"},
+        { question: "A guideline for appointment into senior posts is .....?", options: ["Appointment must be based on family ties", "Only persons with international experience can apply", "Possession of the required academic and professional qualifications", "It is done exclusively through internal recruitment"], answer: "c"},
+        { question: "Personnel matters in the civil service involve .....?", options: ["Only financial transactions in the ministry", "Recruitment, promotion, discipline, and welfare of staff", "Matters relating to contracts with foreign companies", "Handling of criminal cases in ministries"], answer: "b"},
+        { question: "Personnel matters are typically managed by .....?", options: ["The Security Unit", "External consultants only", "The Office of the Chief Justice", "The Human Resources or Administrative Department"], answer: "d"},
+        { question: "Which of the following is NOT a common service department in the civil service?", options: ["Human Resources Department", "Finance and Accounts Department", "Catering Department", "General Services Department"], answer: "c"},
+        { question: "One of the common service departments in the civil service is .....?", options: ["Planning, Research, and Statistics", "Sports and Recreation Unit", "Private Security Services", "Food Supply and Logistics"], answer: "a"},
+        { question: "One of the conditions for confirmation of appointment in the civil service is .....?", options: ["Serving for a minimum of 20 years", "Obtaining a personal recommendation from the minister", "Being related to a senior officer", "Successful completion of the probationary period"], answer: "d"},
+        { question: "Confirmation of appointment is usually done after .....?", options: ["Automatic approval after three months", "The officer pays a confirmation fee", "A political election", "A successful performance evaluation and clearance of disciplinary records"], answer: "d"},
+        { question: "Recruitment in the civil service is best defined as .....?", options: ["The removal of unqualified staff from service", "The training of existing employees", "The process of attracting, selecting, and appointing suitable candidates for jobs", "The transfer of officers between ministries"], answer: "c"},
+        { question: "The primary objective of recruitment is to .....?", options: ["Replace all retiring officers with new staff", "Promote only internal candidates", "Ensure the right personnel are employed for effective service delivery", "Allow only senior officials to make hiring decisions"], answer: "c"},
+        { question: "Acting appointments are usually made when .....?", options: ["A junior officer wants to gain promotion", "The post is permanently vacant", "A substantive officer is unavailable, and a replacement is temporarily needed", "An officer requests additional responsibilities"], answer: "b"},
+        { question: "Acting appointments should not exceed a period of .....?", options: ["10 years", "6 months, unless otherwise approved", "2 days", "1 month"], answer: "b"},
+        { question: "Disciplinary procedures against an officer are initiated when .....?", options: ["The officer completes a training program", "The officer submits a resignation letter", "The officer commits an act of misconduct or inefficiency", "The officer is promoted"], answer: "c"},
+        { question: "The first step in a disciplinary procedure is .....?", options: ["Issuance of a query to the officer involved", "Immediate dismissal of the officer", "Automatic salary reduction", "Suspension without investigation"], answer: "a"},
+        { question: "General inefficiency in the civil service refers to .....?", options: ["Stealing government funds", "Committing a criminal offense", "Leaving work early without permission", "Consistent failure to meet job expectations"], answer: "d"},
+        { question: "Misconduct in the civil service typically involves .....?", options: ["A violation of rules, regulations, or ethical standards", "Inability to complete work on time", "Being absent from duty due to illness", "Requesting for annual leave"], answer: "a"},
+        { question: "Which of the following is NOT considered misconduct in the civil service?", options: ["Gross insubordination", "Reporting to work on time", "Fraudulent practices", "Falsification of records"], answer: "b"},
+        { question: "One example of misconduct in the civil service is .....?", options:["Completing assigned duties diligently", "Attending official meetings regularly", "Unauthorized disclosure of official information", "Following all service rules"], answer: "c"},
+        { question: "Suspension in the civil service means .....?", options: ["Temporary removal of an officer from duty, often without pay, pending investigation", "Permanent removal of an officer from service", "Transfer to another ministry", "Reduction in rank due to inefficiency"], answer: "a"},
+        { question: "Interdiction in the civil service usually occurs when .....?", options: ["An officer is being investigated for a serious offense and is placed on partial salary", "An officer is given a promotion", "A ministry is restructuring", "An officer voluntarily resigns"], answer: "a"},
+        { question: "Financial embarrassment in the civil service refers to .....?", options: ["Failure of an officer to save money", "Receiving a salary increase", "Proper financial management by an officer", "A situation where an officer is unable to meet financial obligations due to excessive debt"], answer: "d"},
+        { question: "Financial embarrassment is considered a serious offense because", options: ["It allows an officer to earn more money", "It improves the officer’s reputation", "It can affect an officer’s efficiency and integrity in service", "It is not considered serious"], answer: "c"},
+        { question: "One effective way to address shortcomings in subordinates is to .....?", options: ["Provide guidance, training, and mentorship", "Ignore their mistakes and let them learn on their own", "Recommend immediate dismissal", "Suspend them indefinitely"], answer: "a"},
+        { question: "When a subordinate continuously underperforms, the next step should be .....?", options: ["Fire them immediately", "Issue a query and provide necessary support for improvement", "Reduce their salary", "Ignore the situation"], answer: "b"},
+        { question: "Basic salary refers to .....?", options: ["The fixed amount paid to an employee before deductions and allowances", "The total earnings after deductions", "The amount spent on official duties", "The money given as a loan"], answer: "a"},
+        { question: "Gross income includes .....?", options: ["Only the salary without any benefits", "The final amount received after tax deductions", "Basic salary plus all allowances before deductions", "Personal savings of an officer"], answer: "c"},
+        { question: "In the civil service, seniority is primarily determined by .....?", options: ["Personal relationships with superiors", "Number of friends in high positions", "Date of first appointment and rank", "How long the officer has lived in the city"], answer: "c"},
+        { question: "An officer’s seniority can also be influenced by .....?", options: ["Political party membership", "The number of times they have been absent", "The number of social events they attend", "Performance, conduct, and length of service"], answer: "d"},
+        { question: "Which of the following is NOT a way of leaving the civil service?", options: ["Retirement", "Resignation", "Dismissal", "Unlimited tenure extension"], answer: "d"},
+        { question: "One of the voluntary ways of leaving the service is .....?", options: ["Resignation", "Dismissal", "Termination due to misconduct", "Suspension"], answer: "a"},
+        { question: "Withholding of increment in the civil service means .....?", options: ["A temporary delay in salary payment", "An automatic salary reduction", "The denial of an officer’s scheduled salary increment due to misconduct or inefficiency", "A promotion without salary adjustment"], answer: "c"},
+        { question: "Deferment of increment refers to .....?", options: ["Permanent removal of an officer’s salary increment", "A delay in the implementation of an officer’s salary increment for a specific period", "Reduction in rank due to inefficiency", "An automatic increase in salary without performance review"], answer: "b"},
+        { question: "Dismissal from the civil service means .....?", options: ["A punitive measure where an officer is removed from service with loss of benefits", "Voluntary resignation with full benefits", "A routine retirement process", "Promotion to a higher level"], answer: "a"},
+        { question: "Termination of appointment is different from dismissal because .....?", options: ["It is a form of promotion", "The officer is dismissed without investigation", "It is an administrative action that may entitle the officer to benefits", "The officer continues to receive a salary"], answer: "b"},
+        { question: "Classified correspondence in the civil service refers to .....?", options: ["Any ordinary memo sent between offices", "Letters exchanged between civil servants and their friends", "Publicly available documents", "Official documents that contain sensitive or confidential information"], answer: "d"},
+        { question: "Which of the following is NOT an example of classified correspondence?", options: ["Secret government memos", "Top-level policy documents", "General circulars for all staff", "Security-related official reports"], answer: "c"},
+        { question: "Seniority in the civil service is primarily determined by .....?", options: ["Date of first appointment and rank", "The officer’s personal connections", "The amount of time an officer spends in one office", "The number of training programs attended"], answer: "a"},
+        { question: "In cases where officers were appointed on the same date, seniority is decided by .....?", options: ["Their performance ranking and date of birth", "Who reports to work earliest", "The number of leave days taken", "Their performance ranking and date of birth"], answer: "d"},
+        { question: "Which of the following is NOT a way of leaving the civil service?", options: ["Retirement", "Promotion", "Dismissal", "Termination"], answer: "b"},
+        { question: "Which of the following is a voluntary method of leaving the civil service?", options: ["Suspension", "Dismissal", "Resignation", "Termination for misconduct"], answer: "c"},
+        { question: "In the civil service, authority is best defined as .....?", options: ["The ability to manipulate others", "The privilege to work independently without supervision", "The right to ignore official rules and procedures", "The right to give orders and ensure they are obeyed"], answer: "d"},
+        { question: "Which of the following best describes the source of an officer’s authority in the civil service?", options: ["Delegation from higher-ranking officials", "Self-acquired power", "Popularity among colleagues", "Personal wealth"], answer: "a"},
+        { question: "Which of the following is NOT a source of authority in the civil service?", options: ["Constitution", "Financial resources", "Civil Service Rules", "Delegation"], answer: "b"},
+        { question: "The primary legal source of authority in the Nigerian civil service is .....?", options: ["Personal opinions of senior officers", "The Nigerian Constitution", "Informal office discussions", "Social media trends"], answer: "b"},
+        { question: "What is the first step in supplying information for decision-making?", options: ["Destroying old records", "Making random guesses", "Identifying the information needed", "Ignoring available data"], answer: "c"},
+        { question: "Before presenting information to aid decision-making, a civil servant must .....?", options: ["Hide any negative details", "Only consider personal opinions", "Disregard government policies", "Ensure its accuracy and relevance"], answer: "d"},
+        { question: "Which of the following is NOT a source of information in the civil service?", options: ["Government gazettes", "Newspapers", "Fictional novels", "Official reports"], answer: "c"},
+        { question: "The most reliable source of policy-related information in the civil service is .....?", options: ["Government circulars and directives", "Gossip from colleagues", "Personal blogs", "Social media posts"], answer: "a"},
+        { question: "Which of the following is NOT a code of ethics in government service?", options: ["Transparency", "Nepotism", "Integrity", "Accountability"], answer: "b"}
+
+    ]; 
+
+    let currentQuestion = 0;
+let score = 0;
+let timer;
+let timeRemaining = 3000;
+let answers = new Array(questions.length).fill(null);
+
+function displayQuestion(index) {
+    const questionText = document.getElementById("question-text");
+    const optionsContainer = document.getElementById("options-container");
+    
+    questionText.textContent = `Question ${index + 1}: ${questions[index].question}`;
+    optionsContainer.innerHTML = "";
+    
+    questions[index].options.forEach((option, i) => {
+        const value = String.fromCharCode(97 + i);
+        const input = document.createElement("input");
+        input.type = "radio";
+        input.name = "answer";
+        input.value = value;
+        input.id = `option${i + 1}`;
+        
+        // Check if this answer was previously selected
+        if (answers[index] === value) {
+            input.checked = true;
+        }
+        
+        const label = document.createElement("label");
+        label.htmlFor = `option${i + 1}`;
+        label.textContent = `${String.fromCharCode(65 + i)}. ${option}`;
+        
+        optionsContainer.appendChild(input);
+        optionsContainer.appendChild(label);
+        optionsContainer.appendChild(document.createElement("br"));
+    });
+}
+
+    function startTimer() {
+        timer = setInterval(() => {
+            if (timeRemaining > 0) {
+                timeRemaining--;
+                const minutes = Math.floor(timeRemaining / 60).toString().padStart(2, '0');
+                const seconds = (timeRemaining % 60).toString().padStart(2, '0');
+                document.getElementById("timer").textContent = `Time Remaining: ${minutes}:${seconds}`;
+            } else {
+                clearInterval(timer);
+                submitExam();
+            }
+        }, 1000);
+    }
+
+    function nextQuestion() {
+        checkAnswer();
+        if (currentQuestion < questions.length - 1) {
+            currentQuestion++;
+            displayQuestion(currentQuestion);
+        } else {
+            alert("You are on the last question.");
+        }
+    }
+
+    function previousQuestion() {
+        if (currentQuestion > 0) {
+            currentQuestion--;
+            displayQuestion(currentQuestion);
+        } else {
+            alert("You are on the first question.");
+        }
+    }
+
+    function checkAnswer() {
+    const selectedOption = document.querySelector("input[name='answer']:checked");
+    if (selectedOption) {
+        answers[currentQuestion] = selectedOption.value;
+        score = answers.reduce((total, answer, idx) => {
+            return answer === questions[idx].answer ? total + 1 : total;
+        }, 0);
+    }
+}
+
+function submitExam() {
+    clearInterval(timer);
+    checkAnswer();
+    
+    const percentage = ((score / questions.length) * 100).toFixed(1);
+    const popup = document.getElementById("score-popup");
+    const overlay = document.getElementById("overlay");
+    
+    document.getElementById("total-questions").textContent = questions.length;
+    document.getElementById("correct-answers").textContent = score;
+    document.getElementById("percentage").textContent = `${percentage}%`;
+    
+    const resultMessage = document.getElementById("result-message");
+    resultMessage.className = percentage >= 70 ? "result-message pass" : "result-message fail";
+    resultMessage.textContent = percentage >= 70 ? 
+        "🎉 Congratulations! You passed!" : 
+        "❌ You need more practice. Try again!";
+    
+    popup.style.display = "block";
+    overlay.style.display = "block";
+    
+    // Close pop-up handler
+    document.getElementById("close-popup").onclick = function() {
+        popup.style.display = "none";
+        overlay.style.display = "none";
+    };
+};
+    window.onload = function() {
+        displayQuestion(currentQuestion);
+        startTimer();
+    };
+</script>
+
+</body>
+</html>

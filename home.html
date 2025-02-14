@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CBT Training Platform</title>
+    <link rel="icon" type="image/png" href="images/fcta_cbt_icon.png">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            padding-bottom: 60px; /* Add padding to prevent footer overlap */
+            background-image: url('images/CBT_003.jpeg');
+        }
+
+        header {
+            background-color: #004080;
+            color: #ffffff;
+            padding: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        header img {
+            height: 80px;            
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 36px;
+            flex-grow: 1;
+            text-align: center;
+        }
+       
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #003366;
+            padding: 10px;
+        }
+
+        nav a {
+            color: #ffffff;
+            text-decoration: none;
+            padding: 10px 20px;
+            margin: 0 10px;
+            font-size: 18px;
+            border-radius: 5px;
+        }
+
+        nav a:hover {
+            background-color: #005bb5;
+        }
+
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .introduction {
+            margin-bottom: 20px;
+        }
+
+        .introduction h2 {
+            font-size: 24px;
+            color: #004080;
+            margin-bottom: 10px;
+        }
+
+        .introduction p {
+            font-size: 18px;
+            color: #333;
+        }
+
+        .sections {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+
+        .section {
+            background-color: #004080;
+            color: #ffffff;
+            padding: 20px;
+            margin: 10px;
+            border-radius: 8px;
+            width: 30%;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+
+        .section:hover {
+            background-color: #003366;
+        }
+
+        footer {
+            background-color: #003366;
+            color: #ffffff;
+            text-align: center;
+            padding: 15px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <img src="images/FCTA _LOGO.jpg" alt="FCTA Logo" id="logo" onclick="goToHome()">
+    <h1>CBT Promotion Exam Training Platform</h1>
+</header>
+
+<nav>
+    <a href="civil_service_rules_info.html" aria-label="Civil Service Rules">Civil Service Rules</a>
+    <a href="financial_regulations_info.html" aria-label="Financial Regulations">Financial Regulations</a>
+    <a href="educ_info.html" aria-label="Educational Policies">Educational Policies</a>
+    <a href="general_paper_info.html" aria-label="General Paper">General Paper</a>
+</nav>
+
+<main class="container">
+    <section class="introduction">
+        <h2>Welcome to FCT CBT Promotion Exam Training Platform</h2>
+        <p>This platform is developed to prepare you for <strong>FCTA Staff CBT Promotion Exam</strong>. Click on any section below to get started.</p>
+    </section>
+
+    <section class="sections">
+        <div class="section" onclick="window.location.href='civil_service_rules.html'">
+            <h3>Civil Service Rules</h3>
+            <p>Take the Exam</p>
+        </div>
+        <div class="section" onclick="window.location.href='financial_regulations.html'">
+            <h3>Financial Regulations</h3>
+            <p>Take the Exam</p>
+        </div>
+        <div class="section" onclick="window.location.href='educ.html'">
+            <h3>Educational Policies</h3>
+            <p>Take the Exam</p>
+        </div>
+        <div class="section" onclick="window.location.href='general_paper.html'">
+            <h3>General Paper</h3>
+            <p>Take the Exam</p>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <p>&copy; 2025 HM Solutions LTD | All Rights Reserved</p>
+</footer>
+<script>
+function goToHome() {
+    window.location.href = "index.html"; // Redirect to the home page
+}
+</script>
+
+</body>
+</html>
